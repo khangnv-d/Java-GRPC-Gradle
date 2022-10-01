@@ -42,6 +42,7 @@ dependencies {
     implementation "io.grpc:grpc-protobuf:$grpcVersion"
     implementation "io.grpc:grpc-stub:$grpcVersion"
     implementation "io.grpc:grpc-services:$grpcVersion"
+    implementation 'org.mongodb:mongodb-driver-sync:4.5.0'
     compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
