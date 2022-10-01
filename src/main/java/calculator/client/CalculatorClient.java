@@ -1,11 +1,6 @@
 package calculator.client;
 
-import com.proto.calculator.CalculatorServiceGrpc;
-import com.proto.calculator.PrimeRequest;
-import com.proto.calculator.SumRequest;
-import com.proto.calculator.SumResponse;
-import com.proto.greeting.GreetingRequest;
-import com.proto.greeting.GreetingServiceGrpc;
+import com.proto.calculator.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -29,6 +24,24 @@ public class CalculatorClient {
         });
     }
 
+
+    private static void doSqrt(ManagedChannel channel) {
+        System.out.println("Enter doSqrt");
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub = CalculatorServiceGrpc.newBlockingStub(channel);
+
+        SqrtResponse response = stub.sqrt(SqrtRequest.newBuilder().setNumber(25).build());
+
+        System.out.println("Sqrt 25 = " + response.getResult());
+
+        try {
+            response = stub.sqrt(SqrtRequest.newBuilder().setNumber(-1).build());
+            System.out.println("Sqrt -1 = " + response.getResult());
+        } catch (RuntimeException e) {
+            System.out.println("Got an error for sqrt");
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         if (args.length == 0) {
             System.out.println("Need one argument to work");
@@ -46,6 +59,9 @@ public class CalculatorClient {
                 break;
             case "primes":
                 doPrimes(channel);
+                break;
+            case "sqrt":
+                doSqrt(channel);
                 break;
             default:
                 System.out.println("Keyword invalid: " + args[0]);

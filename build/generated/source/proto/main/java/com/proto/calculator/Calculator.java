@@ -25,20 +25,24 @@ public final class Calculator {
     java.lang.String[] descriptorData = {
       "\n\033calculator/calculator.proto\022\ncalculato" +
       "r\032\024calculator/sum.proto\032\026calculator/prim" +
-      "e.proto2\214\001\n\021CalculatorService\0226\n\003sum\022\026.c" +
-      "alculator.SumRequest\032\027.calculator.SumRes" +
-      "ponse\022?\n\006primes\022\030.calculator.PrimeReques" +
-      "t\032\031.calculator.PrimeResponse0\001B\030\n\024com.pr" +
-      "oto.calculatorP\001b\006proto3"
+      "e.proto\032\025calculator/sqrt.proto2\307\001\n\021Calcu" +
+      "latorService\0226\n\003sum\022\026.calculator.SumRequ" +
+      "est\032\027.calculator.SumResponse\022?\n\006primes\022\030" +
+      ".calculator.PrimeRequest\032\031.calculator.Pr" +
+      "imeResponse0\001\0229\n\004sqrt\022\027.calculator.SqrtR" +
+      "equest\032\030.calculator.SqrtResponseB\030\n\024com." +
+      "proto.calculatorP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.proto.calculator.Sum.getDescriptor(),
           com.proto.calculator.Prime.getDescriptor(),
+          com.proto.calculator.Sqrt.getDescriptor(),
         });
     com.proto.calculator.Sum.getDescriptor();
     com.proto.calculator.Prime.getDescriptor();
+    com.proto.calculator.Sqrt.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

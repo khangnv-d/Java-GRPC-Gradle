@@ -1,11 +1,9 @@
 package greeting.client;
 
-import com.proto.greeting.Greeting;
 import com.proto.greeting.GreetingRequest;
 import com.proto.greeting.GreetingResponse;
 import com.proto.greeting.GreetingServiceGrpc;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
+import io.grpc.*;
 import io.grpc.stub.StreamObserver;
 
 import java.util.ArrayList;
@@ -99,6 +97,30 @@ public class GreetingClient {
         latch.await(3, TimeUnit.SECONDS);
     }
 
+
+    private static void doGreetWithDeadline(ManagedChannel channel) {
+        System.out.println("Enter doGreetWithDeadline");
+        GreetingServiceGrpc.GreetingServiceBlockingStub stub = GreetingServiceGrpc.newBlockingStub(channel);
+        GreetingResponse response = stub.withDeadline(Deadline.after(3, TimeUnit.SECONDS))
+                .greetWithDeadline(GreetingRequest.newBuilder().setFirstName("Clement").build());
+
+        System.out.println("Greeting within deadline: " + response.getResult());
+
+        try {
+            response = stub.withDeadline(Deadline.after(100, TimeUnit.MILLISECONDS))
+                    .greetWithDeadline(GreetingRequest.newBuilder().setFirstName("Clement").build());
+
+            System.out.println("Greeting deadline exceeded: " + response.getResult());
+        } catch (StatusRuntimeException e) {
+            if (e.getStatus().getCode() == Status.Code.DEADLINE_EXCEEDED) {
+                System.out.println("Deadline has been exceeded");
+            } else {
+                System.out.println("Got an exception in greetWithDeadline");
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) throws InterruptedException {
         if (args.length == 0) {
             System.out.println("Need one argument to work");
@@ -123,6 +145,9 @@ public class GreetingClient {
                 break;
             case "greet_everyone":
                 doGreetEveryone(channel);
+                break;
+            case "greet_with_deadline":
+                doGreetWithDeadline(channel);
                 break;
             default:
                 System.out.println("Keyword invalid: " + args[0]);
